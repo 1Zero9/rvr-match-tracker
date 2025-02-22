@@ -4,84 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RVR Match Tracker</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script src="script.js"></script>
-
 <body>
+    <h1>RVR Match Tracker</h1>
 
-    <div class="container mt-5">
-        <h1 class="text-center">RVR Match Tracker</h1>
+    <form id="match-form">
+        <label for="match-date">Date:</label>
+        <input type="date" id="match-date" required>
 
-        <!-- Form to add a new match -->
-        <form id="match-form" class="mb-5">
-            <div class="form-group">
-                <label for="match-date">Date:</label>
-                <input type="date" class="form-control" id="match-date" required>
-            </div>
-            <div class="form-group">
-                <label for="opponent">Opponent:</label>
-                <input type="text" class="form-control" id="opponent" required>
-            </div>
-            <div class="form-group">
-                <label for="home-away">Home/Away:</label>
-                <select class="form-control" id="home-away">
-                    <option value="Home">Home</option>
-                    <option value="Away">Away</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="score-us">Score (Us):</label>
-                <input type="number" class="form-control" id="score-us" required>
-            </div>
-            <div class="form-group">
-                <label for="score-them">Score (Them):</label>
-                <input type="number" class="form-control" id="score-them" required>
-            </div>
-            <div class="form-group">
-                <label for="match-type">Match Type:</label>
-                <select class="form-control" id="match-type">
-                    <option value="League">League</option>
-                    <option value="Friendly">Friendly</option>
-                    <option value="Training">Training</option>
-                    <option value="Cup">Cup</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="notes">Notes:</label>
-                <textarea class="form-control" id="notes"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Match</button>
-        </form>
+        <label for="opponent">Opponent:</label>
+        <input type="text" id="opponent" required>
 
-  <!-- Table to display matches -->
-<table class="table table-striped" id="matches-table">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Opponent</th>
-            <th>Home/Away</th>
-            <th>Score</th>
-            <th>Type</th>
-            <th>Notes</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Matches will be dynamically inserted here -->
-    </tbody>
-</table>
-    </div>
+        <label for="home-away">Home/Away:</label>
+        <select id="home-away" required>
+            <option value="Home">Home</option>
+            <option value="Away">Away</option>
+        </select>
+
+        <label for="score-us">Our Score:</label>
+        <input type="number" id="score-us" required>
+
+        <label for="score-them">Opponent's Score:</label>
+        <input type="number" id="score-them" required>
+
+        <label for="match-type">Match Type:</label>
+        <select id="match-type" required>
+            <option value="League">League</option>
+            <option value="Friendly">Friendly</option>
+            <option value="Training">Training</option>
+            <option value="Cup">Cup</option>
+        </select>
+
+        <label for="notes">Notes:</label>
+        <textarea id="notes"></textarea>
+
+        <button type="submit">Add Match</button>
+    </form>
+
+    <h2>Past Matches</h2>
+    <table id="matches-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Opponent</th>
+                <th>Home/Away</th>
+                <th>Score</th>
+                <th>Type</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Matches will be inserted here dynamically -->
+        </tbody>
+    </table>
 
     <p id="version" style="text-align: center; font-size: 14px; color: gray; margin-top: 20px;">
         Version: <span id="version-number">Loading...</span>
     </p>
-    
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

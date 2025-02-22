@@ -1,24 +1,10 @@
-// 🔹 Ensure Supabase is loaded first
-document.addEventListener("DOMContentLoaded", () => {
-    // 🔹 Load the Supabase client library
-    if (typeof supabase === "undefined") {
-        console.error("Supabase library not found. Ensure the script is loaded correctly.");
-        return;
-    }
+// ✅ Supabase Configuration (Replace with Your Actual Supabase Credentials)
+const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
+const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
 
-
-// 🔹 Replace these with your actual Supabase credentials
-const SUPABASE_URL = "https://iuncufxtierapkvvhswc.supabase.co"; 
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1bmN1Znh0aWVyYXBrdnZoc3djIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyNTA5NTgsImV4cCI6MjA1NTgyNjk1OH0.FIYbqYVwWjfrxBJ5YfEGe-xKpjwkziX5n3Ha7IX6zVI";
-
-// ✅ Initialize Supabase
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    // ✅ Load matches after Supabase is ready
-    loadMatches();
-});
-
-
+// ✅ Initialize Supabase Client
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+console.log("Supabase initialized:", supabaseClient);
 
 // ✅ Function to Add a Match
 async function addMatch(event) {
@@ -34,9 +20,9 @@ async function addMatch(event) {
         notes: document.getElementById("notes").value
     };
 
-    console.log("Submitting match data:", matchData); // Debugging log
+    console.log("Submitting match data:", matchData);
 
-    const { data, error } = await supabase.from("matches").insert([matchData]);
+    const { data, error } = await supabaseClient.from("matches").insert([matchData]);
 
     if (error) {
         console.error("Error adding match:", error.message);
@@ -44,13 +30,13 @@ async function addMatch(event) {
     } else {
         console.log("Match added successfully:", data);
         alert("Match added successfully!");
-        loadMatches(); // Refresh matches
+        loadMatches(); // Refresh match list
     }
 }
 
-// Function to Load Matches
+// ✅ Function to Load Matches from Supabase
 async function loadMatches() {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from("matches")
         .select("*")
         .order("date", { ascending: false });
@@ -59,6 +45,8 @@ async function loadMatches() {
         console.error("Error loading matches:", error.message);
         return;
     }
+
+    console.log("Matches loaded:", data);
 
     const tableBody = document.querySelector("#matches-table tbody");
     tableBody.innerHTML = "";
@@ -77,24 +65,33 @@ async function loadMatches() {
     });
 }
 
+// ✅ Run this code only after the DOM is fully loaded
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("DOM fully loaded!");
 
-// ✅ Event Listeners
-document.getElementById("match-form").addEventListener("submit", addMatch);
+    // ✅ Ensure Supabase is initialized before using it
+    if (!supabaseClient) {
+        console.error("Supabase is not initialized!");
+        return;
+    }
 
-// ✅ Load matches on page load
-loadMatches();
+    // ✅ Set up event listener for match form
+    const matchForm = document.getElementById("match-form");
+    if (matchForm) {
+        matchForm.addEventListener("submit", addMatch);
+    } else {
+        console.error("Match form not found!");
+    }
 
+    // ✅ Load matches when the page loads
+    loadMatches();
 
-// ✅ Set the version number
-const VERSION_NUMBER = "1.0.1"; // Update this when making new changes
-
-// ✅ Ensure script runs after the page is fully loaded
-window.onload = function () {
+    // ✅ Display version number
+    const VERSION_NUMBER = "1.0.0";
     const versionElement = document.getElementById("version-number");
     if (versionElement) {
         versionElement.textContent = VERSION_NUMBER;
-        console.log("Version updated to:", VERSION_NUMBER); // Debugging log
     } else {
-        console.error("Error: Version element not found!");
+        console.error("Version element not found!");
     }
-};
+});

@@ -2,9 +2,37 @@
 const SUPABASE_URL = "https://iuncufxtierapkvvhswc.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1bmN1Znh0aWVyYXBrdnZoc3djIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyNTA5NTgsImV4cCI6MjA1NTgyNjk1OH0.FIYbqYVwWjfrxBJ5YfEGe-xKpjwkziX5n3Ha7IX6zVI";
 
-// ✅ Initialize Supabase Client
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-console.log("Supabase initialized:", supabaseClient);
+// ✅ Ensure the script runs after the Supabase library is loaded
+document.addEventListener("DOMContentLoaded", () => {
+    if (typeof supabase === "undefined") {
+        console.error("Supabase library not loaded! Ensure it's included in index.html.");
+        return;
+    }
+
+    // ✅ Initialize Supabase Client
+    window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log("Supabase initialized:", window.supabaseClient);
+
+    // ✅ Attach event listener to the form
+    const matchForm = document.getElementById("match-form");
+    if (matchForm) {
+        matchForm.addEventListener("submit", addMatch);
+    } else {
+        console.error("Match form not found!");
+    }
+
+    // ✅ Load matches when the page loads
+    loadMatches();
+
+    // ✅ Display version number
+    const VERSION_NUMBER = "1.0.0";
+    const versionElement = document.getElementById("version-number");
+    if (versionElement) {
+        versionElement.textContent = VERSION_NUMBER;
+    } else {
+        console.error("Version element not found!");
+    }
+});
 
 // ✅ Function to Add a Match
 async function addMatch(event) {
@@ -22,7 +50,7 @@ async function addMatch(event) {
 
     console.log("Submitting match data:", matchData);
 
-    const { data, error } = await supabaseClient.from("matches").insert([matchData]);
+    const { data, error } = await window.supabaseClient.from("matches").insert([matchData]);
 
     if (error) {
         console.error("Error adding match:", error.message);
@@ -36,7 +64,7 @@ async function addMatch(event) {
 
 // ✅ Function to Load Matches from Supabase
 async function loadMatches() {
-    const { data, error } = await supabaseClient
+    const { data, error } = await window.supabaseClient
         .from("matches")
         .select("*")
         .order("date", { ascending: false });
@@ -64,34 +92,3 @@ async function loadMatches() {
         tableBody.appendChild(row);
     });
 }
-
-// ✅ Run this code only after the DOM is fully loaded
-document.addEventListener("DOMContentLoaded", function () {
-    console.log("DOM fully loaded!");
-
-    // ✅ Ensure Supabase is initialized before using it
-    if (!supabaseClient) {
-        console.error("Supabase is not initialized!");
-        return;
-    }
-
-    // ✅ Set up event listener for match form
-    const matchForm = document.getElementById("match-form");
-    if (matchForm) {
-        matchForm.addEventListener("submit", addMatch);
-    } else {
-        console.error("Match form not found!");
-    }
-
-    // ✅ Load matches when the page loads
-    loadMatches();
-
-    // ✅ Display version number
-    const VERSION_NUMBER = "1.0.0";
-    const versionElement = document.getElementById("version-number");
-    if (versionElement) {
-        versionElement.textContent = VERSION_NUMBER;
-    } else {
-        console.error("Version element not found!");
-    }
-});

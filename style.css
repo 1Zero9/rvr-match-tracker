@@ -1,5 +1,5 @@
 body {
-    background-color: #f8f9fa;
+    background-color: #f0f2f5;
     font-family: 'Arial', sans-serif;
     max-width: 600px;
     margin: 20px auto;
@@ -29,14 +29,14 @@ th, td {
 }
 
 h1, h2 {
-    color: #343a40;
+    color: #333;
 }
 
 #match-form {
     background-color: #ffffff;
     padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 #matches-table {
@@ -44,6 +44,25 @@ h1, h2 {
 }
 
 .table thead th {
-    background-color: #343a40;
+    background-color: #007bff;
     color: #ffffff;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }

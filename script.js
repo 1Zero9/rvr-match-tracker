@@ -1,7 +1,6 @@
 // ✅ Supabase Configuration (Replace with Your Actual Supabase Credentials)
-const SUPABASE_URL = "https://iuncufxtierapkvvhswc.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1bmN1Znh0aWVyYXBrdnZoc3djIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyNTA5NTgsImV4cCI6MjA1NTgyNjk1OH0.FIYbqYVwWjfrxBJ5YfEGe-xKpjwkziX5n3Ha7IX6zVI";
-
+const SUPABASE_URL = "https://svagsjxegdinhmtomkhd.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2YWdzanhlZ2RpbmhtdG9ta2hkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyNjE5MzYsImV4cCI6MjA1NTgzNzkzNn0.x1piuc-8g2k6c71HbnjVY9djVCfqg-Y5FxcOAFuoO5g"
 // ✅ Ensure the script runs after the Supabase library is loaded
 document.addEventListener("DOMContentLoaded", () => {
     if (typeof supabase === "undefined") {

@@ -83,3 +83,13 @@ document.getElementById("match-form").addEventListener("submit", addMatch);
 
 // ✅ Load matches on page load
 loadMatches();
+
+
+// ✅ Set the version number here
+const VERSION_NUMBER = "1.0.0";  // Change this as needed
+
+// ✅ Display version on the page
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("version-number").textContent = VERSION_NUMBER;
+});
+

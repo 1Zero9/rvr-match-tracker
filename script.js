@@ -1,5 +1,5 @@
 // 🌐 Google Apps Script Web App URL with a CORS Proxy
-const API_URL = "https://script.google.com/macros/s/AKfycbw_c3Op6527SoVMlQGnyodT9Lqcikm1WW8wYh4A7FudMbIkaEOzp4bYArkkJYXGk9SJyw/exec"
+const API_URL = "https://script.google.com/macros/s/AKfycbyfPXqQdxzQy3PE6e6mrMgqdvgsihm65ambmBbUQ2c1-HzTE_mkYP-zo8_hNezxOrCIlA/exec"
 
 
 

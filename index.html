@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RVR Match Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>RVR Match Tracker</h1>
+
+    <!-- Form to add a new match -->
+    <form id="match-form">
+        <label>Date: <input type="date" id="match-date" required></label>
+        <label>Opponent: <input type="text" id="opponent" required></label>
+        <label>Home/Away:
+            <select id="home-away">
+                <option value="Home">Home</option>
+                <option value="Away">Away</option>
+            </select>
+        </label>
+        <label>Score (Us): <input type="number" id="score-us" required></label>
+        <label>Score (Them): <input type="number" id="score-them" required></label>
+        <label>Match Type:
+            <select id="match-type">
+                <option value="League">League</option>
+                <option value="Friendly">Friendly</option>
+                <option value="Training">Training</option>
+                <option value="Cup">Cup</option>
+            </select>
+        </label>
+        <label>Notes: <textarea id="notes"></textarea></label>
+        <button type="submit">Add Match</button>
+    </form>
+
+    <!-- Display matches -->
+    <h2>Past Matches</h2>
+    <table id="matches-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Opponent</th>
+                <th>Home/Away</th>
+                <th>Score</th>
+                <th>Type</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Matches will be inserted here -->
+        </tbody>
+    </table>
+
+    <script src="script.js"></script>
+</body>
+</html>

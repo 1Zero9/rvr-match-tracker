@@ -1,9 +1,24 @@
+// 🔹 Ensure Supabase is loaded first
+document.addEventListener("DOMContentLoaded", () => {
+    // 🔹 Load the Supabase client library
+    if (typeof supabase === "undefined") {
+        console.error("Supabase library not found. Ensure the script is loaded correctly.");
+        return;
+    }
+
+
 // 🔹 Replace these with your actual Supabase credentials
 const SUPABASE_URL = "https://iuncufxtierapkvvhswc.supabase.co"; 
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1bmN1Znh0aWVyYXBrdnZoc3djIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyNTA5NTgsImV4cCI6MjA1NTgyNjk1OH0.FIYbqYVwWjfrxBJ5YfEGe-xKpjwkziX5n3Ha7IX6zVI";
 
 // ✅ Initialize Supabase
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ✅ Load matches after Supabase is ready
+    loadMatches();
+});
+
+
 
 // ✅ Function to Add a Match
 async function addMatch(event) {

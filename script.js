@@ -86,7 +86,7 @@ loadMatches();
 
 
 // ✅ Set the version number
-const VERSION_NUMBER = "1.0.0"; // Update as needed
+const VERSION_NUMBER = "1.0.1"; // Update as needed
 
 // ✅ Wait for the DOM to load before updating the version text
 document.addEventListener("DOMContentLoaded", () => {

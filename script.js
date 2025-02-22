@@ -33,9 +33,12 @@ async function addMatch(event) {
     }
 }
 
-// ✅ Function to Load Matches
+// Function to Load Matches
 async function loadMatches() {
-    const { data, error } = await supabase.from("matches").select("*").order("date", { ascending: false });
+    const { data, error } = await supabase
+        .from("matches")
+        .select("*")
+        .order("date", { ascending: false });
 
     if (error) {
         console.error("Error loading matches:", error.message);
@@ -58,6 +61,7 @@ async function loadMatches() {
         tableBody.appendChild(row);
     });
 }
+
 
 // ✅ Event Listeners
 document.getElementById("match-form").addEventListener("submit", addMatch);

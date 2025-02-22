@@ -1,5 +1,6 @@
 body {
-    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
     max-width: 600px;
     margin: 20px auto;
     text-align: center;
@@ -25,4 +26,24 @@ table {
 th, td {
     border: 1px solid black;
     padding: 10px;
+}
+
+h1, h2 {
+    color: #343a40;
+}
+
+#match-form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#matches-table {
+    margin-top: 20px;
+}
+
+.table thead th {
+    background-color: #343a40;
+    color: #ffffff;
 }

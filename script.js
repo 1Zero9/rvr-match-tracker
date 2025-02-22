@@ -86,14 +86,15 @@ loadMatches();
 
 
 // ✅ Set the version number
-const VERSION_NUMBER = "1.0.1"; // Update as needed
+const VERSION_NUMBER = "1.0.1"; // Update this when making new changes
 
-// ✅ Wait for the DOM to load before updating the version text
-document.addEventListener("DOMContentLoaded", () => {
+// ✅ Ensure script runs after the page is fully loaded
+window.onload = function () {
     const versionElement = document.getElementById("version-number");
     if (versionElement) {
         versionElement.textContent = VERSION_NUMBER;
+        console.log("Version updated to:", VERSION_NUMBER); // Debugging log
     } else {
-        console.error("Version element not found!");
+        console.error("Error: Version element not found!");
     }
-});
+};

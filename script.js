@@ -85,11 +85,15 @@ document.getElementById("match-form").addEventListener("submit", addMatch);
 loadMatches();
 
 
-// ✅ Set the version number here
-const VERSION_NUMBER = "1.0.0";  // Change this as needed
+// ✅ Set the version number
+const VERSION_NUMBER = "1.0.0"; // Update as needed
 
-// ✅ Display version on the page
+// ✅ Wait for the DOM to load before updating the version text
 document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("version-number").textContent = VERSION_NUMBER;
+    const versionElement = document.getElementById("version-number");
+    if (versionElement) {
+        versionElement.textContent = VERSION_NUMBER;
+    } else {
+        console.error("Version element not found!");
+    }
 });
-

@@ -64,9 +64,74 @@ async function loadMatches() {
                 <td>${match.score_us} - ${match.score_them}</td>
                 <td>${match.type}</td>
                 <td>${match.notes || "N/A"}</td>
+                <td class="actions">
+                    <button class="edit-btn" onclick="editMatch(${match.id})">Edit</button>
+                    <button class="delete-btn" onclick="deleteMatch(${match.id})">Delete</button>
+                </td>
             `;
             tableBody.appendChild(row);
         });
+    }
+}
+
+// ✅ Function to Edit a Match
+async function editMatch(id) {
+    const match = await supabaseClient.from("matches").select("*").eq("id", id).single();
+    if (match.error) {
+        console.error("Error fetching match:", match.error.message);
+        return;
+    }
+
+    const matchData = match.data;
+    document.getElementById("match-date").value = matchData.date;
+    document.getElementById("opponent").value = matchData.opponent;
+    document.getElementById("home-away").value = matchData.home_away;
+    document.getElementById("score-us").value = matchData.score_us;
+    document.getElementById("score-them").value = matchData.score_them;
+    document.getElementById("match-type").value = matchData.type;
+    document.getElementById("notes").value = matchData.notes;
+
+    // Update the form submission to update the match instead of adding a new one
+    const matchForm = document.getElementById("match-form");
+    matchForm.removeEventListener("submit", addMatch);
+    matchForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const updatedMatchData = {
+            date: document.getElementById("match-date").value,
+            opponent: document.getElementById("opponent").value,
+            home_away: document.getElementById("home-away").value,
+            score_us: parseInt(document.getElementById("score-us").value),
+            score_them: parseInt(document.getElementById("score-them").value),
+            type: document.getElementById("match-type").value,
+            notes: document.getElementById("notes").value
+        };
+
+        const { data, error } = await supabaseClient.from("matches").update(updatedMatchData).eq("id", id);
+
+        if (error) {
+            console.error("Error updating match:", error.message);
+            alert("Failed to update match.");
+        } else {
+            console.log("Match updated successfully:", data);
+            alert("Match updated successfully!");
+            loadMatches(); // Refresh match list
+            matchForm.removeEventListener("submit", arguments.callee);
+            matchForm.addEventListener("submit", addMatch);
+        }
+    });
+}
+
+// ✅ Function to Delete a Match
+async function deleteMatch(id) {
+    const { data, error } = await supabaseClient.from("matches").delete().eq("id", id);
+
+    if (error) {
+        console.error("Error deleting match:", error.message);
+        alert("Failed to delete match.");
+    } else {
+        console.log("Match deleted successfully:", data);
+        alert("Match deleted successfully!");
+        loadMatches(); // Refresh match list
     }
 }
 

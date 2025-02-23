@@ -7,6 +7,98 @@
     <link rel="stylesheet" href="style.css">
     <!-- Include Supabase JavaScript library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+        header {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .btn-orange {
+            background-color: #ff6600;
+        }
+        .btn-orange:hover {
+            background-color: #cc5200;
+        }
+        #version {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 14px;
+            color: gray;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f8f9fa;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        .actions button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .edit-btn {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .edit-btn:hover {
+            background-color: #0056b3;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -35,6 +127,7 @@
                     <th>Score</th>
                     <th>Type</th>
                     <th>Notes</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>

@@ -12,6 +12,18 @@ document.addEventListener("DOMContentLoaded", () => {
     window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log("Supabase initialized:", window.supabaseClient);
 
+
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        headers: {
+            apikey: SUPABASE_ANON_KEY  // ✅ Ensures the API key is always sent
+        }
+    });
+
+    
+
+    
+
     // ✅ Attach event listener to the form
     const matchForm = document.getElementById("match-form");
     if (matchForm) {

@@ -1,53 +1,14 @@
-// ✅ Supabase Configuration (Replace with Your Actual Supabase Credentials)
-const SUPABASE_URL = "https://svagsjxegdinhmtomkhd.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2YWdzanhlZ2RpbmhtdG9ta2hkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyNjE5MzYsImV4cCI6MjA1NTgzNzkzNn0.x1piuc-8g2k6c71HbnjVY9djVCfqg-Y5FxcOAFuoO5g"
-// ✅ Ensure the script runs after the Supabase library is loaded
-document.addEventListener("DOMContentLoaded", () => {
-    if (typeof supabase === "undefined") {
-        console.error("Supabase library not loaded! Ensure it's included in index.html.");
-        return;
-    }
+// ✅ Supabase Configuration (Kept in script.js because .env is NOT supported)
+const SUPABASE_URL = "https://svagsjxegdinhmtomkhd.supabase.co";  // 🔒 Keep secure with RLS
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2YWdzanhlZ2RpbmhtdG9ta2hkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyNjE5MzYsImV4cCI6MjA1NTgzNzkzNn0.x1piuc-8g2k6c71HbnjVY9djVCfqg-Y5FxcOAFuoO5g";  // 🔒 Safe to use publicly with RLS enabled
 
-    // ✅ Initialize Supabase Client
-    window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    console.log("Supabase initialized:", window.supabaseClient);
-
-
-
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-        headers: {
-            apikey: SUPABASE_ANON_KEY  // ✅ Ensures the API key is always sent
-        }
-    });
-
-    
-
-    
-
-    // ✅ Attach event listener to the form
-    const matchForm = document.getElementById("match-form");
-    if (matchForm) {
-        matchForm.addEventListener("submit", addMatch);
-    } else {
-        console.error("Match form not found!");
-    }
-
-    // ✅ Load matches when the page loads
-    loadMatches();
-
-    // ✅ Display version number
-    const VERSION_NUMBER = "1.0.0";
-    const versionElement = document.getElementById("version-number");
-    if (versionElement) {
-        versionElement.textContent = VERSION_NUMBER;
-    } else {
-        console.error("Version element not found!");
-    }
-});
+// ✅ Initialize Supabase Client
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+console.log("Supabase initialized:", supabaseClient);
 
 // ✅ Function to Add a Match
 async function addMatch(event) {
-    event.preventDefault(); // Prevent form reload
+    event.preventDefault(); // Prevent page reload
 
     const matchData = {
         date: document.getElementById("match-date").value,
@@ -59,9 +20,12 @@ async function addMatch(event) {
         notes: document.getElementById("notes").value
     };
 
+    // ✅ Save to localStorage (so it's not lost on refresh)
+    localStorage.setItem("lastMatch", JSON.stringify(matchData));
+
     console.log("Submitting match data:", matchData);
 
-    const { data, error } = await window.supabaseClient.from("matches").insert([matchData]);
+    const { data, error } = await supabaseClient.from("matches").insert([matchData]);
 
     if (error) {
         console.error("Error adding match:", error.message);
@@ -75,7 +39,7 @@ async function addMatch(event) {
 
 // ✅ Function to Load Matches from Supabase
 async function loadMatches() {
-    const { data, error } = await window.supabaseClient
+    const { data, error } = await supabaseClient
         .from("matches")
         .select("*")
         .order("date", { ascending: false });
@@ -103,3 +67,46 @@ async function loadMatches() {
         tableBody.appendChild(row);
     });
 }
+
+// ✅ Restore Last Match Data from localStorage
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOM fully loaded!");
+
+    // ✅ Attach event listener to match form
+    const matchForm = document.getElementById("match-form");
+    if (matchForm) {
+        matchForm.addEventListener("submit", addMatch);
+    } else {
+        console.error("Match form not found!");
+    }
+
+    // ✅ Load matches when the page loads
+    loadMatches();
+
+    // ✅ Restore saved form data from localStorage
+    const savedMatch = localStorage.getItem("lastMatch");
+    if (savedMatch) {
+        const match = JSON.parse(savedMatch);
+        document.getElementById("match-date").value = match.date || "";
+        document.getElementById("opponent").value = match.opponent || "";
+        document.getElementById("home-away").value = match.home_away || "Home";
+        document.getElementById("score-us").value = match.score_us || "";
+        document.getElementById("score-them").value = match.score_them || "";
+        document.getElementById("match-type").value = match.type || "League";
+        document.getElementById("notes").value = match.notes || "";
+    }
+
+    // ✅ Display version number & auto-increment for updates
+    const versionElement = document.getElementById("version-number");
+    let version = localStorage.getItem("version") || "1.0.0";
+    if (versionElement) {
+        versionElement.textContent = version;
+    } else {
+        console.error("Version element not found!");
+    }
+
+    // Increment version (for next update)
+    const [major, minor, patch] = version.split('.').map(Number);
+    const newVersion = `${major}.${minor}.${patch + 1}`;
+    localStorage.setItem("version", newVersion);
+});

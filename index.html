@@ -86,6 +86,31 @@
         </div>
     </main>
     
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Display version number & date
+            const versionElement = document.getElementById("version-number");
+            const versionDateElement = document.getElementById("version-date");
+            let version = localStorage.getItem("version") || "1.0.0";
+            if (versionElement) {
+                versionElement.textContent = version;
+            } else {
+                console.error("Version element not found!");
+            }
+
+            // Display current date and time for the version
+            if (versionDateElement) {
+                const now = new Date();
+                versionDateElement.textContent = now.toLocaleString();
+            } else {
+                console.error("Version date element not found!");
+            }
+
+            // Increment version (for next update)
+            const [major, minor, patch] = version.split('.').map(Number);
+            const newVersion = `${major}.${minor}.${patch + 1}`;
+            localStorage.setItem("version", newVersion);
+        });
+    </script>
 </body>
 </html>

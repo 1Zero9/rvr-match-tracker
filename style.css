@@ -1,68 +1,54 @@
+/* General Styling */
 body {
-    background-color: #f0f2f5;
-    font-family: 'Arial', sans-serif;
-    max-width: 600px;
-    margin: 20px auto;
+    background-color: #0d0d0d;
+    color: #00ffcc;
+    font-family: 'Courier New', Courier, monospace;
     text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
-form {
+header {
+    background-color: #1a1a1a;
+    padding: 20px 0;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 10px rgba(0, 255, 204, 0.3);
+}
+
+.button-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    gap: 20px;
 }
 
-input, select, textarea, button {
-    padding: 8px;
-    font-size: 16px;
+.btn {
+    background-color: #00ffcc;
+    color: #0d0d0d;
+    font-size: 1.2em;
+    padding: 15px 30px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0px 5px 15px rgba(0, 255, 204, 0.4);
+    transition: all 0.3s ease-in-out;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+.btn:hover {
+    background-color: #ff0066;
+    color: #fff;
+    box-shadow: 0px 5px 25px rgba(255, 0, 102, 0.7);
+    transform: scale(1.1);
 }
 
-th, td {
-    border: 1px solid black;
-    padding: 10px;
-}
-
-h1, h2 {
-    color: #333;
-}
-
-#match-form {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-#matches-table {
-    margin-top: 20px;
-}
-
-.table thead th {
-    background-color: #007bff;
-    color: #ffffff;
-}
-
-.table tbody tr:nth-child(even) {
-    background-color: #f8f9fa;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-}
-
-.btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-}
-
-.form-control:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+@media (max-width: 600px) {
+    .btn {
+        font-size: 1em;
+        padding: 12px 25px;
+    }
 }

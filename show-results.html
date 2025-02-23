@@ -3,37 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Show Match Results</title>
+    <title>Show Results - RVR Match Tracker</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Include Supabase JavaScript library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
     <header>
-        <h1>Match Results</h1>
+        <h1>Show Results</h1>
         <nav>
             <a href="index.html">Home</a>
             <a href="log-results.html">Log Results</a>
             <a href="setup.html">Setup</a>
         </nav>
     </header>
-
-    <h2>Past Matches</h2>
-    <table id="matches-table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Opponent</th>
-                <th>Home/Away</th>
-                <th>Score</th>
-                <th>Type</th>
-                <th>Notes</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Matches will be inserted here dynamically -->
-        </tbody>
-    </table>
-
+    
+    <main>
+        <!-- Add the matches table -->
+        <h2 class="text-center">Past Matches</h2>
+        <table class="table table-striped" id="matches-table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Date</th>
+                    <th>Opponent</th>
+                    <th>Home/Away</th>
+                    <th>Score</th>
+                    <th>Type</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Matches will be inserted here dynamically -->
+            </tbody>
+        </table>
+    </main>
+    
     <script src="script.js"></script>
 </body>
 </html>

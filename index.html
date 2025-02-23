@@ -16,6 +16,11 @@
             <a href="show-results.html">Show Results</a>
             <a href="setup.html">Setup</a>
         </nav>
+        <!-- Add the version element -->
+        <p id="version" style="position: absolute; top: 10px; right: 10px; font-size: 14px; color: gray;">
+            Version: <span id="version-number">Loading...</span> <br>
+            Date: <span id="version-date">Loading...</span>
+        </p>
     </header>
     
     <main>
@@ -89,11 +94,6 @@
                 <!-- Matches will be inserted here dynamically -->
             </tbody>
         </table>
-
-        <!-- Add the version element -->
-        <p id="version" style="text-align: center; font-size: 14px; color: gray; margin-top: 20px;">
-            Version: <span id="version-number">Loading...</span>
-        </p>
     </main>
     
     <script src="script.js"></script>

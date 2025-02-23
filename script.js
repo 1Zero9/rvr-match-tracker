@@ -52,20 +52,22 @@ async function loadMatches() {
     console.log("Matches loaded:", data);
 
     const tableBody = document.querySelector("#matches-table tbody");
-    tableBody.innerHTML = "";
+    if (tableBody) {
+        tableBody.innerHTML = "";
 
-    data.forEach(match => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${match.date}</td>
-            <td>${match.opponent}</td>
-            <td>${match.home_away}</td>
-            <td>${match.score_us} - ${match.score_them}</td>
-            <td>${match.type}</td>
-            <td>${match.notes || "N/A"}</td>
-        `;
-        tableBody.appendChild(row);
-    });
+        data.forEach(match => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${match.date}</td>
+                <td>${match.opponent}</td>
+                <td>${match.home_away}</td>
+                <td>${match.score_us} - ${match.score_them}</td>
+                <td>${match.type}</td>
+                <td>${match.notes || "N/A"}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
 }
 
 // ✅ Restore Last Match Data from localStorage
@@ -98,11 +100,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ✅ Display version number & auto-increment for updates
     const versionElement = document.getElementById("version-number");
+    const versionDateElement = document.getElementById("version-date");
     let version = localStorage.getItem("version") || "1.0.0";
     if (versionElement) {
         versionElement.textContent = version;
     } else {
         console.error("Version element not found!");
+    }
+
+    // Display current date and time for the version
+    if (versionDateElement) {
+        const now = new Date();
+        versionDateElement.textContent = now.toLocaleString();
+    } else {
+        console.error("Version date element not found!");
     }
 
     // Increment version (for next update)

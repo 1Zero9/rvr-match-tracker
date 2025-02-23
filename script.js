@@ -83,49 +83,66 @@ async function loadMatches() {
 // ✏️ Edit an Existing Match
 // ========================================
 async function editMatch(id) {
-    const match = await supabaseClient.from("matches").select("*").eq("id", id).single();
-    if (match.error) {
-        console.error("Error fetching match:", match.error.message);
+    console.log(`Editing match: ${id}`);
+
+    // Fetch match details
+    const { data: match, error } = await supabaseClient.from("matches").select("*").eq("id", id).single();
+    
+    if (error) {
+        console.error("Error fetching match:", error.message);
+        alert("Error retrieving match details.");
         return;
     }
 
-    const matchData = match.data;
-    document.getElementById("match-date").value = matchData.date;
-    document.getElementById("opponent").value = matchData.opponent;
-    document.getElementById("home-away").value = matchData.home_away;
-    document.getElementById("score-us").value = matchData.score_us;
-    document.getElementById("score-them").value = matchData.score_them;
-    document.getElementById("match-type").value = matchData.type;
-    document.getElementById("notes").value = matchData.notes;
+    if (!match) {
+        console.error("Match not found.");
+        alert("Match not found.");
+        return;
+    }
 
-    // Update the form submission to update the match instead of adding a new one
-    const matchForm = document.getElementById("match-form");
-    matchForm.removeEventListener("submit", addMatch);
-    matchForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const updatedMatchData = {
-            date: document.getElementById("match-date").value,
-            opponent: document.getElementById("opponent").value,
-            home_away: document.getElementById("home-away").value,
-            score_us: parseInt(document.getElementById("score-us").value),
-            score_them: parseInt(document.getElementById("score-them").value),
-            type: document.getElementById("match-type").value,
-            notes: document.getElementById("notes").value
-        };
+    console.log("Match Data Retrieved:", match);
 
-        const { data, error } = await supabaseClient.from("matches").update(updatedMatchData).eq("id", id);
+    // Ensure form fields exist before setting values
+    if (!document.getElementById("match-date")) {
+        console.warn("Match form fields not found. Are you on the correct page?");
+        return;
+    }
 
-        if (error) {
-            console.error("Error updating match:", error.message);
-            alert("Failed to update match.");
-        } else {
-            console.log("Match updated successfully:", data);
-            alert("Match updated successfully!");
-            loadMatches(); // Refresh match list
-            matchForm.removeEventListener("submit", arguments.callee);
-            matchForm.addEventListener("submit", addMatch);
-        }
-    });
+    document.getElementById("match-date").value = match.date || "";
+    document.getElementById("opponent").value = match.opponent || "";
+    document.getElementById("home-away").value = match.home_away || "Home";
+    document.getElementById("score-us").value = match.score_us || "";
+    document.getElementById("score-them").value = match.score_them || "";
+    document.getElementById("match-type").value = match.type || "League";
+    document.getElementById("notes").value = match.notes || "";
+}
+
+// ========================================
+// ✏️ Update an Existing Match
+// ========================================
+async function updateMatch(event, id) {
+    event.preventDefault();
+
+    const updatedMatchData = {
+        date: document.getElementById("match-date").value,
+        opponent: document.getElementById("opponent").value,
+        home_away: document.getElementById("home-away").value,
+        score_us: parseInt(document.getElementById("score-us").value),
+        score_them: parseInt(document.getElementById("score-them").value),
+        type: document.getElementById("match-type").value,
+        notes: document.getElementById("notes").value
+    };
+
+    const { data, error } = await supabaseClient.from("matches").update(updatedMatchData).eq("id", id);
+
+    if (error) {
+        console.error("Error updating match:", error.message);
+        alert("Failed to update match.");
+    } else {
+        console.log("Match updated successfully:", data);
+        alert("Match updated successfully!");
+        loadMatches(); // Refresh match list
+    }
 }
 
 // ========================================
@@ -150,50 +167,12 @@ async function deleteMatch(id) {
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM fully loaded!");
 
-    // ✅ Attach event listener to match form
     const matchForm = document.getElementById("match-form");
     if (matchForm) {
         matchForm.addEventListener("submit", addMatch);
     } else {
-        console.error("Match form not found!");
+        console.warn("Match form not found on this page, skipping event listener.");
     }
 
-    // ✅ Load matches when the page loads
     loadMatches();
-
-    // ✅ Restore saved form data from localStorage
-    const savedMatch = localStorage.getItem("lastMatch");
-    if (savedMatch) {
-        const match = JSON.parse(savedMatch);
-        document.getElementById("match-date").value = match.date || "";
-        document.getElementById("opponent").value = match.opponent || "";
-        document.getElementById("home-away").value = match.home_away || "Home";
-        document.getElementById("score-us").value = match.score_us || "";
-        document.getElementById("score-them").value = match.score_them || "";
-        document.getElementById("match-type").value = match.type || "League";
-        document.getElementById("notes").value = match.notes || "";
-    }
-
-    // ✅ Display version number & auto-increment for updates
-    const versionElement = document.getElementById("version-number");
-    const versionDateElement = document.getElementById("version-date");
-    let version = localStorage.getItem("version") || "1.0.0";
-    if (versionElement) {
-        versionElement.textContent = version;
-    } else {
-        console.error("Version element not found!");
-    }
-
-    // Display current date and time for the version
-    if (versionDateElement) {
-        const now = new Date();
-        versionDateElement.textContent = now.toLocaleString();
-    } else {
-        console.error("Version date element not found!");
-    }
-
-    // Increment version (for next update)
-    const [major, minor, patch] = version.split('.').map(Number);
-    const newVersion = `${major}.${minor}.${patch + 1}`;
-    localStorage.setItem("version", newVersion);
 });
